@@ -18,9 +18,8 @@ class SecurityController extends BaseSecurityController
      *
      * @Route("/login/{authspace}")
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        $request = $this->container->get('request');
         if ($this->container->has('provider'))
         {
             $userProvider = $this->container->find('provider');

@@ -2,6 +2,7 @@
 
 namespace Da\OAuthServerBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Form\FormInterface;
@@ -19,9 +20,8 @@ class RegistrationController extends BaseRegistrationController
      *
      * @Route("/register/{authspace}")
      */
-    public function registerAction()
+    public function registerAction(Request $request)
     {
-        $request = $this->container->get('request');
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->container->get('fos_user.registration.form.factory');
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
