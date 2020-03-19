@@ -19,7 +19,7 @@ parameters:
 services:
     da_oauth_server.http.request_provider:
         class: %da_oauth_server.http.request_provider.class%
-        arguments: [@service_container]
+        arguments: ["@service_container"]
 
     da_oauth_server.user_provider.authspace_email:
         class: %da_oauth_server.user_provider.authspace_email.class%
@@ -38,7 +38,7 @@ services:
 
     da_oauth_server.client_manager.doctrine:
         class: %da_oauth_server.client_manager.doctrine.class%
-        arguments: [@doctrine, %da_oauth_server.client.class%, %da_oauth_server.entity_manager.class%]
+        arguments: ["@doctrine", "%da_oauth_server.client.class%", "%da_oauth_server.entity_manager.class%"]
 
     da_oauth_server.user_manager.doctrine:
         class: %da_oauth_server.user_manager.doctrine.class%
