@@ -26,6 +26,36 @@ use Da\AuthCommonBundle\Model\UserInterface;
  *         @ORM\UniqueConstraint(name="email_authspace", columns={"email_canonical", "auth_space_id"})
  *     }
  * )
+ * @ORM\AttributeOverrides({
+ *      @ORM\AttributeOverride(name="username",
+ *          column=@ORM\Column(
+ *              name     = "username",
+ *              type     = "string",
+ *              length   = 255
+ *          )
+ *      ),
+ *      @ORM\AttributeOverride(name="usernameCanonical",
+ *          column=@ORM\Column(
+ *              name     = "username_canonical",
+ *              type     = "string",
+ *              length   = 255
+ *          )
+ *      ),
+ *      @ORM\AttributeOverride(name="email",
+ *          column=@ORM\Column(
+ *              name     = "email",
+ *              type     = "string",
+ *              length   = 255
+ *          )
+ *      ),
+ *      @ORM\AttributeOverride(name="emailCanonical",
+ *          column=@ORM\Column(
+ *              name     = "email_canonical",
+ *              type     = "string",
+ *              length   = 255
+ *          )
+ *      )
+ * })
  */
 class User extends BaseUser implements UserInterface
 {
@@ -67,46 +97,6 @@ class User extends BaseUser implements UserInterface
     protected $updatedAt;
 
     /**
-     * @ORM\Column(name="username", type="string", length=255)
-     */
-    protected $username;
-
-    /**
-     * @ORM\Column(name="username_canonical", type="string", length=255)
-     */
-    protected $usernameCanonical;
-
-    /**
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    protected $email;
-
-    /**
-     * @ORM\Column(name="email_canonical", type="string", length=255)
-     */
-    protected $emailCanonical;
-
-    /**
-     * @ORM\Column(name="enabled", type="boolean")
-     */
-    protected $enabled;
-
-    /**
-     * @ORM\Column(name="salt", type="string")
-     */
-    protected $salt;
-
-    /**
-     * @ORM\Column(name="password", type="string")
-     */
-    protected $password;
-
-    /**
-     * @ORM\Column(name="last_login", type="datetime", nullable=true)
-     */
-    protected $lastLogin;
-
-    /**
      * @ORM\Column(name="locked", type="boolean")
      */
     protected $locked;
@@ -120,21 +110,6 @@ class User extends BaseUser implements UserInterface
      * @ORM\Column(name="expires_at", type="datetime", nullable=true)
      */
     protected $expiresAt;
-
-    /**
-     * @ORM\Column(name="confirmation_token", type="string", nullable=true)
-     */
-    protected $confirmationToken;
-
-    /**
-     * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
-     */
-    protected $passwordRequestedAt;
-
-    /**
-     * @ORM\Column(name="roles", type="array")
-     */
-    protected $roles;
 
     /**
      * @ORM\Column(name="credentials_expired", type="boolean")
