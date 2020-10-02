@@ -13,7 +13,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SerializedArrayType extends AbstractType
 {
@@ -54,11 +57,12 @@ class SerializedArrayType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'name'    => '',
-            'options' => array(
+            'entry_type' => TextType::class,
+            'entry_options' => array(
                 'label' => ' ',
                 'required' => true,
                 'attr' => array(
@@ -78,9 +82,25 @@ class SerializedArrayType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
-        return 'collection';
+        return CollectionType::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'serialized_array';
     }
 
     /**
@@ -88,6 +108,6 @@ class SerializedArrayType extends AbstractType
      */
     public function getName()
     {
-        return 'serialized_array';
+        return $this->getBlockPrefix();
     }
 }

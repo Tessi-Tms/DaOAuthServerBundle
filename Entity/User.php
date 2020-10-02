@@ -15,6 +15,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Da\AuthCommonBundle\Model\AuthSpaceInterface;
 use Da\AuthCommonBundle\Model\UserInterface;
+use Tms\Bundle\LoggerBundle\Logger\LoggableInterface;
 
 /**
  * @ORM\Entity
@@ -57,7 +58,7 @@ use Da\AuthCommonBundle\Model\UserInterface;
  *      )
  * })
  */
-class User extends BaseUser implements UserInterface
+class User extends BaseUser implements UserInterface, LoggableInterface
 {
     /**
      * @ORM\Id
@@ -102,7 +103,7 @@ class User extends BaseUser implements UserInterface
     protected $locked;
 
     /**
-     * @ORM\Column(name="expired", type="boolean")
+     * @ORM\Column(name="expired", type="boolean", nullable=true)
      */
     protected $expired;
 
@@ -112,7 +113,7 @@ class User extends BaseUser implements UserInterface
     protected $expiresAt;
 
     /**
-     * @ORM\Column(name="credentials_expired", type="boolean")
+     * @ORM\Column(name="credentials_expired", type="boolean", nullable=true)
      */
     protected $credentialsExpired;
 
@@ -269,5 +270,25 @@ class User extends BaseUser implements UserInterface
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    /**
+     * Set locked
+     * @param boolean $locked
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = (bool) $locked;
+
+        return $this;
+    }
+
+    /**
+     * Get locked
+     * @return boolean
+     */
+    public function getLocked()
+    {
+        return $this->locked;
     }
 }

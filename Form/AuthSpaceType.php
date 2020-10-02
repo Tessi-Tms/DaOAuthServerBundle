@@ -5,6 +5,7 @@ namespace Da\OAuthServerBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AuthSpaceType extends AbstractType
 {
@@ -21,9 +22,9 @@ class AuthSpaceType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Da\OAuthServerBundle\Entity\AuthSpace'
@@ -31,10 +32,26 @@ class AuthSpaceType extends AbstractType
     }
 
     /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'da_oauthserverbundle_authspacetype';
+    }
+
+    /**
      * @return string
      */
     public function getName()
     {
-        return 'da_oauthserverbundle_authspacetype';
+        return $this->getBlockPrefix();
     }
 }

@@ -3,8 +3,11 @@
 namespace Da\OAuthServerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type as SfType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Da\OAuthServerBundle\Form\Type\SerializedArrayType;
 
 class ClientType extends AbstractType
 {
@@ -18,21 +21,21 @@ class ClientType extends AbstractType
             ->add('name')
             ->add('scope')
             ->add('authSpace')
-            ->add('redirectUris', 'serialized_array', array(
-                'type' => 'url',
+            ->add('redirectUris', SerializedArrayType::class, array(
+                'entry_type' => SfType\UrlType::class,
             ))
-            ->add('allowedGrantTypes', 'serialized_array', array(
-                'type' => 'text',
+            ->add('allowedGrantTypes', SerializedArrayType::class, array(
+                'entry_type' => SfType\TextType::class,
             ))
-            ->add('trusted', 'switch_checkbox', array('required' => false))
+            ->add('trusted', SfType\CheckboxType::class, array('required' => false))
             ->add('clientLoginPath')
         ;
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Da\OAuthServerBundle\Entity\Client'
@@ -40,10 +43,26 @@ class ClientType extends AbstractType
     }
 
     /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'da_oauthserverbundle_clienttype';
+    }
+
+    /**
      * @return string
      */
     public function getName()
     {
-        return 'da_oauthserverbundle_clienttype';
+        return $this->getBlockPrefix();
     }
 }
